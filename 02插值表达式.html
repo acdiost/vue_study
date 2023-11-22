@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <title>Vue</title>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{ nickname.toUpperCase() }}</h1>
+        <h2>{{ age >= 18 ? "成年":"未成年" }}</h2>
+        <p>{{ nickname + ' 你好' }}</p>
+        <p>{{ friend.name }}</p>
+        <p>{{ friend.age }}</p>
+        <p title="">{{ friend.name + ' 你好' }}</p>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                nickname: 'Tom',
+                age: 18,
+                friend: {
+                    name: 'Jerry',
+                    age: 20
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

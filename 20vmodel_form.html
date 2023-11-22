@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <title>Vue</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h3>Dawn study form</h3>
+        Name: <input type="text" v-model="name">
+        <br>
+        Single:  <input type="checkbox" v-model="single">
+        <br>
+        Sex: 
+        男 <input type="radio" name="sex" value="1" v-model="sex">
+        女 <input type="radio" name="sex" value="2" v-model="sex">
+        <br>
+        City: <select name="city" id="city" v-model="city">
+            <option value="1">北京</option>
+            <option value="2">上海</option>
+            <option value="3">广州</option>
+            <option value="4">深圳</option>
+            <option value="5">杭州</option>
+            <option value="6">成都</option>
+            <option value="7">武汉</option>
+        </select>
+        <br>
+        Desc: <textarea name="desc" id="desc" cols="30" rows="10" v-model="desc"></textarea>
+        <br>
+        <button @click="submit">Submit</button>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                name: '',
+                single: true,
+                sex: 1,
+                city: 3,
+                desc: 'desc'
+            }
+        })
+    </script>
+</body>
+
+</html>

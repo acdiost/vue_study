@@ -1,0 +1,122 @@
+<html>
+
+<head>
+    <title>Vue 水果案例</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+    <style>
+        .active {
+            color: rgb(176, 231, 205);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h3>购物车</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>选择</th>
+                    <th>名称</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>小计</th>
+                    <th>操作</th>
+            </thead>
+            <tbody v-if="fruitList.length > 0">
+                <tr v-for="item, index in fruitList" :key="item.id" :class="{ active: item.isChecked }" >
+                    <td>
+                        <input type="checkbox" v-model="item.isChecked">
+                    </td>
+                    <td>{{ item.icon }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>
+                        <button :disabled="item.num <= 1" @click="sub(item.id)">-</button>
+                        {{ item.num }}
+                        <button @click="item.num++">+</button>
+                    </td>
+                    <td>{{ item.price * item.num }}</td>
+                    <td>
+                        <a @click.prevent="del(item.id)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody v-else>
+                <tr>
+                    <td>空空如也</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th><input type="checkbox" v-model="isAllChecked">全选</th>
+                    <th>总价 {{totalPrice}}</th>
+                    <th>结算 {{totalCount}}</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <script>
+        const defaultFruitList = [
+            {id: 1, icon: '火龙果', isChecked: true, num: 2, price: 6},
+            {id: 2, icon: '香蕉', isChecked: false, num: 1, price: 5},
+            {id: 3, icon: '苹果', isChecked: false, num: 3, price: 7},
+            {id: 4, icon: '草莓', isChecked: true, num: 4, price: 4},
+            {id: 5, icon: '西瓜', isChecked: false, num: 2, price: 3},            
+        ]
+        const app = new Vue({
+            el: '#app',
+            data: {
+                fruitList: JSON.parse(localStorage.getItem('fruitList')) || defaultFruitList
+            },
+            methods: {
+                del(id) {
+                    this.fruitList = this.fruitList.filter(item => item.id !== id)
+                },
+                sub(id) {
+                    const fruit = this.fruitList.find(item => item.id === id);
+                    fruit.num--;
+                }
+            },
+            computed: {
+                totalPrice() {
+                    return this.fruitList.reduce((sum, item) =>{
+                        if (item.isChecked) {
+                            return sum + item.price * item.num
+                        }else{
+                            return sum
+                        }
+                    }, 0)
+                },
+                isAllChecked: {
+                   get(){
+                        return this.fruitList.every(item => item.isChecked)
+                   },
+                   set(value){
+                        this.fruitList.forEach(item => item.isChecked = value)
+                   }
+                },
+                totalCount() {
+                    return this.fruitList.reduce((sum, item) =>{
+                        if (item.isChecked) {
+                            return sum + item.num
+                        }else{
+                            return sum
+                        }
+                    }, 0)
+                }
+            },
+            watch: {
+                fruitList: {
+                    deep: true,
+                    handler (newValue) {
+                        // 将变化的数据转为 json 存本地
+                        localStorage.setItem('fruitList', JSON.stringify(newValue))
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

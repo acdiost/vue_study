@@ -1,0 +1,50 @@
+<html>
+
+<head>
+    <title>Vue</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        姓：<input type="text" v-model="firstName">
+        名：<input type="text" v-model="lastName">
+        =
+        <span>{{ fullName }}</span>
+        <br>
+        <button @click="changeName">changeName</button>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                firstName: '刘',
+                lastName: '备'
+            },
+            computed: {
+                // fullName() {
+                //     return this.firstName + ' ' + this.lastName
+                // }
+                fullName:{
+                    get(){
+                        return this.firstName + ' ' + this.lastName
+                    },
+                    // 不起作用
+                    set(value){
+                        console.log(value)
+                        this.firstName = value.slice(0,1)
+                        this.lastName = value.slice(2)
+                    }
+                }
+            },
+            methods: {
+                changeName() {
+                    this.firstName = '张'
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

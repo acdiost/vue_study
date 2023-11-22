@@ -1,0 +1,29 @@
+<html>
+
+<head>
+    <title>v-on</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="fn"> 显示隐藏 </button>
+        <h1 v-show="flag">Hello Vue!</h1>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                flag: true
+            },
+            methods: {
+                fn() {
+                    this.flag = !this.flag
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

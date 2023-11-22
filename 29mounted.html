@@ -1,0 +1,30 @@
+<html>
+
+<head>
+    <title>Vue</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mockjs@1.1.0/dist/mock.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" name="words" id="words" v-model="words">
+        <button>搜索</button>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                words: ''
+            },
+            mounted() {
+                // 获取输入框焦点
+                document.querySelector('#words').focus()
+            }
+        })
+    </script>
+</body>
+
+</html>

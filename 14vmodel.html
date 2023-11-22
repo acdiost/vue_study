@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    <title>Vue</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Account: {{ username }}</h1>
+        account: <input type="text" v-model="username">
+        <h2>PWD: {{ password }}</h2>
+        password: <input type="password" v-model="password">
+        <br>
+        <br>
+        <button @click="login">Login</button>
+        <button @click="reset">Reset</button>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                username: 'admin',
+                password: '123'
+            },
+            methods: {
+                login() {
+                    if (this.username == 'admin' && this.password == '123') {
+                        alert('登录成功')
+                    } else {
+                        alert('登录失败')
+                    }
+                },
+                reset() {
+                    this.username = '',
+                    this.password = ''
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

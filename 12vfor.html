@@ -1,0 +1,27 @@
+<html>
+
+<head>
+    <title>Vue v for</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="item in list">{{ item }}</li>
+            <li v-for="item in list" :key="item">{{ item }}</li>
+            <li v-for="(item, index) in list" :key="index">{{ item }} - {{ index + 1 }}</li>
+        </ul>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                list: [1, 2, 3, 4, 5, 6],
+            }
+        })
+    </script>
+</body>
+
+</html>

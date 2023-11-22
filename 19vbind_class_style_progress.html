@@ -1,0 +1,52 @@
+<html>
+
+<head>
+    <title>Vue</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+    <style>
+        .progress {
+            height: 25px;
+            width: 400px;
+            border-radius: 10px;
+            background-color: #eee;
+            box-sizing: border-box;
+            margin-bottom: 30px;
+        }
+        .inner {
+            width: 50%;
+            height: 25px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            background-color: rgb(178, 214, 248);
+            overflow: hidden;
+            background-size: 20px 20px;
+            transition: all 1s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="progress">
+            <div class="inner" :style="{width: percent + '%'}">
+                <span>{{ percent }}%</span>
+            </div>
+        </div>
+        <button @click="percent = 25"> set 25%</button>
+        <button @click="percent = 50"> set 50%</button>
+        <button @click="percent = 75"> set 75%</button>
+        <button @click="percent = 100"> set 100%</button>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                percent: 10
+            }
+        })
+    </script>
+</body>
+
+</html>

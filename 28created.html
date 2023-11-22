@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <title>Vue</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mockjs@1.1.0/dist/mock.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="item, index in list" :key="index">
+                {{ item.title }}
+                <a :href="item.url" target="_blank">{{ item.url }}</a>
+                <span>{{ item.source }}</span>
+                发布时间：<span>{{ item.time }}</span>
+                评论：<span>{{ item.cmtcount }}</span>
+                <img :src="item.image" alt="">
+            </li>
+
+        </ul>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                list: []
+            },
+            async created() {
+                // mock 新闻数据
+                const res = Mock.mock({
+                    'list|10': [{
+                        'id|+1': 1,
+                        'title': '@ctitle',
+                        'image': '@image(200x100)',
+                        'url': '@url',
+                        'source': '@cname',
+                        'time': '@date',
+                        'cmtcount': '@integer(0, 100)',
+                    }]
+                })
+                console.log(res)
+                this.list = res.list
+            }
+        })
+    </script>
+</body>
+
+</html>

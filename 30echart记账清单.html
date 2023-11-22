@@ -1,0 +1,193 @@
+<html>
+
+<head>
+    <title>Vue</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mockjs@1.1.0/dist/mock.js"></script>
+    <!-- 导入 echarts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.js"></script>
+    <style>
+        .red {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" placeholder="请输入消费名称" name="name" id="name" v-model.trim="name">
+        <input type="text" placeholder="请输入消费金额" name="price" id="price" v-model.number="price">
+        <button @click="add">添加</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>消费名称</th>
+                    <th>消费金额</th>
+                    <th>操作</th>
+            </thead>
+            <tbody>
+                <tr v-for="item, index in list" :key="item.id">
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ item.name }}</td>
+                    <td :class="item.price > 500 ? 'red' : ''">{{ item.price.toFixed(2) }}</td>
+                    <td><button @click="del(item.id)">删除</button></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">总计 {{ totalCount.toFixed(2) }}</td>
+                </tr>
+            </tfoot>
+        </table>
+        <br>
+        <br>
+        <div id="main" style="width: 600px;height: 600px;"></div>
+    </div>
+
+    <script>
+        /**
+         * 1. 模板渲染
+         * 立刻发请求 created
+         * mock 请求到 data
+         * 结合数据渲染 v-for
+         * 消费统计 => 计算属性
+         * 
+         * 2. 添加功能
+         * 
+         * 3. 删除功能
+         * 
+         * 4. 饼图渲染
+         */
+        const defaultStorge = [
+                    {id: 1, name: '毛巾', price: 10, creator: 'zhangsan'},
+                    {id: 2, name: '球鞋', price: 200, creator: 'zhangsan'},
+                    {id: 3, name: '拖鞋', price: 30, creator: 'zhangsan'},
+                    {id: 4, name: '大衣', price: 600, creator: 'zhangsan'},
+                    {id: 5, name: '裤子', price: 100, creator: 'zhangsan'},
+        ]
+        const app = new Vue({
+            el: '#app',
+            data: {
+                list: JSON.parse(localStorage.getItem('list')) || defaultStorge,
+                name: '',
+                price: '',
+            },
+            created() {
+                this.getList()
+            },
+            mounted() {
+                this.myChart = echarts.init(document.getElementById('main'));
+                this.myChart.setOption({
+                    title: {
+                        text: '消费账单列表',
+                        left: 'center'
+                    },
+                    // 饼图提示框
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    // 图例
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left'
+                    },
+                    series: [
+                        {
+                        name: '消费账单',
+                        type: 'pie',
+                        radius: '50%',
+                        data: [
+                            { value: 1048, name: 'Search Engine' },
+                            // { value: 735, name: 'Direct' },
+                            // { value: 580, name: 'Email' },
+                            { value: 484, name: 'Union Ads' },
+                            { value: 300, name: 'Video Ads' }
+                        ],
+                        emphasis: {
+                            itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                        }
+                    ]
+                })
+                this.getList()
+            },
+            computed: {
+                totalCount() {
+                    let sum = 0;
+                    for (let i = 0; i < this.list.length; i++) {
+                        sum += parseFloat(this.list[i].price);
+                    }
+                    return sum;
+                }
+            },
+            methods: {
+                add () {
+                    if (!this.name || !this.price) {
+                        alert('请输入内容');
+                        return;
+                    }
+                    this.list.push({
+                        id: Date.now(),
+                        name: this.name,
+                        price: this.price,
+                        creator: 'zhangsan'
+                    })
+                    localStorage.setItem('list', JSON.stringify(this.list))
+                    this.name = '';
+                    this.price = '';
+                    this.myChart.setOption({
+                        series: [
+                            {
+                                data: this.list.map(item => {
+                                    return {
+                                        value: item.price,
+                                        name: item.name
+                                    }
+                                })
+                            }
+                        ]
+                    })
+                },
+                del(id) {
+                    this.list = this.list.filter(item => item.id !== id)
+                    localStorage.setItem('list', JSON.stringify(this.list))
+                    this.myChart.setOption({
+                        series: [
+                            {
+                                data: this.list.map(item => {
+                                    return {
+                                        value: item.price,
+                                        name: item.name
+                                    }
+                                })
+                            }
+                        ]
+                    })
+                },
+                getList() {
+                    const res = localStorage.getItem('list')
+                    this.myChart.setOption({
+                        series: [
+                            {
+                                data: this.list.map(item => {
+                                    return {
+                                        value: item.price,
+                                        name: item.name
+                                    }
+                                })
+                            }
+                        ]
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

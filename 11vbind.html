@@ -1,0 +1,25 @@
+<html>
+
+<head>
+    <title>Vue</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <img v-bind:src="url" alt="">
+        <img :src="url" :alt="msg" :title="msg">
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                url: 'http://171.221.174.122:8090/static/images/logo.png',
+                msg: 'Hello Vue!'
+            }
+        })
+    </script>
+</body>
+
+</html>

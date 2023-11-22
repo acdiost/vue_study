@@ -1,0 +1,25 @@
+<html>
+
+<head>
+    <title>v-on</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="count--"> - </button>
+        <span>{{ count }}</span>
+        <button v-on:click="count++"> + </button>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                count: 100
+            }
+        })
+    </script>
+</body>
+
+</html>

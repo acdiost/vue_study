@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <title>Vue 书架</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h3>书架</h3>
+        <table border="1">
+            <tr>
+                <th>书名</th>
+                <th>作者</th>
+                <th>出版日期</th>
+                <th>价格</th>
+                <th>操作</th>
+            </tr>
+            <tr v-for="item in bookList" :key="item.id">
+                <td>{{ item.name }}</td>
+                <td>{{ item.author }}</td>
+                <td>{{ item.date }}</td>
+                <td>{{ item.price }}</td>
+                <td><button @click="deleteBook(item.id)">Delete</button></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                bookList: [
+                    {
+                        id: 1, name: '《算法导论》', author: '科尔曼', date: '2006-9', price: 85.00,
+                    },
+                    {
+                        id: 2, name: '《UNIX编程艺术》', author: '斯坦纳', date: '2006-2', price: 59.00,
+                    },
+                    {
+                        id: 3, name: '《编程珠玑》', author: '贾宝玉', date: '2008-10', price: 39.00,
+                    },
+                    {
+                        id: 4, name: '《代码大全》', author: '古力娜扎', date: '2006-3', price: 128.00,
+                    },
+                    {
+                        id: 5, name: '《深入理解计算机系统》', author: '兰德尔·E·布莱恩特', date: '2006-7', price: 78.00,
+                    }
+                ]
+            },
+            methods: {
+                deleteBook(index) {
+                    this.bookList.splice(index, 1)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

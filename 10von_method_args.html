@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <title>v-on</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h4>自动售货机</h4>
+        <button @click="buy(5)">可乐 5</button>
+        <button @click="buy(10)">咖啡 10</button>
+        <button @click="buy(15)">雪碧 15</button>
+        <hr>
+        <p>余额：{{ count }}</p>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                count: 100
+            },
+            methods: {
+                buy(price) {
+                    this.count -= price
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

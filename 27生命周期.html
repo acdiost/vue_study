@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <title>Vue</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h3>{{ title }}</h3>
+        <button @click="count--"> - </button>
+        <span>{{ count }}</span>
+        <button @click="count++"> + </button>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                count: 100,
+                title: '生命周期',
+            },
+            beforeCreate() {
+                console.log('beforeCreate 响应式数据准备好之前', this.count)
+            },
+            created() {
+                console.log('created 响应式数据准备好之后', this.count)
+            },
+            beforeMount() {
+                console.log('beforeMount 模板渲染前', document.querySelector('h3').innerText)
+            },
+            mounted() {
+                console.log('mounted 模板渲染后', document.querySelector('h3').innerText)
+            },
+            beforeUpdate() {
+                console.log('beforeUpdate 数据更新前', document.querySelector('span').innerText)
+            },
+            updated() {
+                console.log('updated 数据更新后', document.querySelector('span').innerText)
+            },
+            beforeDestroy() {
+                console.log('beforeDestroy 销毁前，清除定时器、延时器等')
+            },
+            destroyed() {
+                console.log('destroyed 销毁后')
+            }
+        })
+    </script>
+</body>
+
+</html>

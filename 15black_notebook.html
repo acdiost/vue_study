@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <title>Dawn TodoList</title>
+    <script src="https://unpkg.com/vue@2.7.14/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <section id="app">
+        <header>
+            <h1>Dawn TodoList</h1>
+            <input @keyup.enter="add" type="text" placeholder="please enter" v-model.trim="todoName">
+            <button @click.stop="add">add task</button>
+        </header>
+        <ul>
+            <li v-for="(item, index) in list" :key="index">
+                <div>
+                    <span>{{ index + 1 }}. </span>
+                    <label for="item-1">{{ item.name }}</label>
+                    <button class="destory" @click="list.splice(index, 1)">x</button>
+                </div>
+            </li>
+        </ul>
+        <footer v-show="list.length">
+            <span>合计： <strong> {{ list.length }} </strong></span>
+            <button @click="list = []">Reset</button>
+            <br>
+        </footer>
+        <span> Made with ❤️ by Dawn</span>
+    </section>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                todoName: '',
+                list: [
+                    { id: 1, name: '学习' },
+                    { id: 2, name: '看书' },
+                    { id: 3, name: '运动' },
+                    { id: 4, name: '冥想' },
+                ]
+            },
+            methods: {
+                add() {
+                    if (!this.todoName) {
+                        alert('请输入内容')
+                        return
+                    }
+                    this.list.unshift({
+                        id: this.list.length + 1,
+                        name: this.todoName
+                    })
+                    this.todoName = ''
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
